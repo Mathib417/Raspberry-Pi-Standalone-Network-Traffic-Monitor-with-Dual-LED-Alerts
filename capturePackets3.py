@@ -1,7 +1,3 @@
-# This python file is an updated version of capturePackets2.py
-# Now the captured file is saved in a folder "Packet Capturer" in Google Drive
-# The file name will be consists of captured date and time also
-
 import subprocess
 import time
 from google.oauth2.credentials import Credentials
@@ -11,7 +7,6 @@ from googleapiclient.http import MediaFileUpload
 import os
 from datetime import datetime
 
-# Update scope to allow file creation
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 
 def get_tshark_interfaces():
@@ -27,11 +22,10 @@ def get_tshark_interfaces():
         return []
 
 def capture_packets(interface, duration=10):
-    # Generate filename with current date and time (e.g., capture20032025142345.pcap)
     timestamp = datetime.now().strftime("%d%m%Y%H%M%S")
     output_file = f"capture{timestamp}.pcap"
     try:
-        device_name = interface.split()[1]  # Extract the device name
+        device_name = interface.split()[1]
         subprocess.run(["tshark", "-i", device_name, "-a", f"duration:{duration}", "-w", output_file], check=True)
         print(f"Packets captured and saved to {output_file}")
         return output_file
@@ -51,32 +45,33 @@ def authenticate():
     return creds
 
 def get_folder_id(service, folder_name="Packet Capturer"):
-    # Search for the folder by name
-    query = f"mimeType='application/vnd.google-apps.folder' name='{folder_name}'"
-    results = service.files().list(q=query, spaces='drive', fields="files(id, name)").execute()
-    items = results.get("files", [])
-    if items:
-        return items[0]["id"]  # Return the first matching folder's ID
-    else:
-        print(f"Folder '{folder_name}' not found in Google Drive.")
+    # Corrected query: no extra space between mimeType and name conditions
+    query = f"mimeType='application/vnd.google-apps.folder' '{folder_name}'"
+    try:
+        results = service.files().list(q=query, spaces='drive', fields="files(id, name)").execute()
+        items = results.get("files", [])
+        if items:
+            print(f"Found folder: {items[0]['name']} (ID: {items[0]['id']})")
+            return items[0]["id"]
+        else:
+            print(f"Folder '{folder_name}' not found in Google Drive.")
+            return None
+    except Exception as e:
+        print(f"Error searching for folder: {e}")
         return None
 
 def upload_to_drive(file_path, folder_id=None):
     creds = authenticate()
     service = build("drive", "v3", credentials=creds)
-    
-    # Set file metadata with folder ID if provided
     file_metadata = {"name": os.path.basename(file_path)}
     if folder_id:
-        file_metadata["parents"] = [folder_id]  # Specify the folder to upload to
-    
+        file_metadata["parents"] = [folder_id]
     media = MediaFileUpload(file_path, mimetype="application/octet-stream")
     file = service.files().create(body=file_metadata, media_body=media, fields="id").execute()
     print(f"Uploaded file ID: {file.get('id')}")
-    return file.get("id")  # Return the file ID for later use
+    return file.get("id")
 
 if __name__ == "__main__":
-    # Step 1: Capture packets
     interfaces = get_tshark_interfaces()
     if interfaces:
         print("Available network interfaces:")
@@ -87,10 +82,9 @@ if __name__ == "__main__":
             if 0 <= choice < len(interfaces):
                 captured_file = capture_packets(interfaces[choice], duration=10)
                 if captured_file:
-                    # Step 2: Get folder ID and upload to Google Drive
                     creds = authenticate()
                     service = build("drive", "v3", credentials=creds)
-                    folder_id = get_folder_id(service, "Packet Capturer")
+                    folder_id = get_folder_id(service, "Packet Capturer")  # Updated folder name
                     if folder_id:
                         file_id = upload_to_drive(captured_file, folder_id)
                         print(f"File uploaded successfully with ID: {file_id} to 'Packet Capturer' folder")
