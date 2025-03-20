@@ -44,9 +44,9 @@ def authenticate():
             token.write(creds.to_json())
     return creds
 
-def get_folder_id(service, folder_name="Packet Capturer"):
-    # Corrected query: no extra space between mimeType and name conditions
-    query = f"mimeType='application/vnd.google-apps.folder' '{folder_name}'"
+def get_or_create_folder_id(service, folder_name="Packet Capturer"):
+    # Search for the folder
+    query = f"mimeType='application/vnd.google-apps.folder' {folder_name}"  # Simplified query
     try:
         results = service.files().list(q=query, spaces='drive', fields="files(id, name)").execute()
         items = results.get("files", [])
@@ -54,10 +54,18 @@ def get_folder_id(service, folder_name="Packet Capturer"):
             print(f"Found folder: {items[0]['name']} (ID: {items[0]['id']})")
             return items[0]["id"]
         else:
-            print(f"Folder '{folder_name}' not found in Google Drive.")
-            return None
+            # Create the folder if it doesn’t exist
+            print(f"Folder '{folder_name}' not found. Creating it...")
+            file_metadata = {
+                "name": folder_name,
+                "mimeType": "application/vnd.google-apps.folder"
+            }
+            folder = service.files().create(body=file_metadata, fields="id").execute()
+            folder_id = folder.get("id")
+            print(f"Created folder '{folder_name}' with ID: {folder_id}")
+            return folder_id
     except Exception as e:
-        print(f"Error searching for folder: {e}")
+        print(f"Error searching or creating folder: {e}")
         return None
 
 def upload_to_drive(file_path, folder_id=None):
@@ -84,12 +92,12 @@ if __name__ == "__main__":
                 if captured_file:
                     creds = authenticate()
                     service = build("drive", "v3", credentials=creds)
-                    folder_id = get_folder_id(service, "Packet Capturer")  # Updated folder name
+                    folder_id = get_or_create_folder_id(service, "Packet Capturer")  # Updated function name
                     if folder_id:
                         file_id = upload_to_drive(captured_file, folder_id)
                         print(f"File uploaded successfully with ID: {file_id} to 'Packet Capturer' folder")
                     else:
-                        print("Upload skipped due to missing folder.")
+                        print("Upload failed due to folder issue.")
             else:
                 print("Invalid interface number.")
         except ValueError:
