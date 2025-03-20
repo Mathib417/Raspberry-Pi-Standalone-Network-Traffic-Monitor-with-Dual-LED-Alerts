@@ -46,7 +46,7 @@ def authenticate():
 
 def get_or_create_folder_id(service, folder_name="Packet Capturer"):
     # Search for the folder
-    query = f"mimeType='application/vnd.google-apps.folder' {folder_name}"  # Simplified query
+    query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}'"  # Corrected query
     try:
         results = service.files().list(q=query, spaces='drive', fields="files(id, name)").execute()
         items = results.get("files", [])
