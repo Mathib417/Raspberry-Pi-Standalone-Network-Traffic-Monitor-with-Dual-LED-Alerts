@@ -22,8 +22,8 @@ def get_tshark_interfaces():
         return []
 
 def capture_packets(interface, duration=10):
-    timestamp = datetime.now().strftime("%H%M%S%d%m%Y")
-    output_file = f"capture{timestamp}.pcap"
+    timestamp = datetime.now().strftime("%H%M%S_%d%m%Y")
+    output_file = f"capture_{timestamp}.pcap"
     try:
         device_name = interface.split()[1]
         subprocess.run(["tshark", "-i", device_name, "-a", f"duration:{duration}", "-w", output_file], check=True)
