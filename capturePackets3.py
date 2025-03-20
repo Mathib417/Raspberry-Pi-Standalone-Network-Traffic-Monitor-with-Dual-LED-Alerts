@@ -22,7 +22,7 @@ def get_tshark_interfaces():
         return []
 
 def capture_packets(interface, duration=10):
-    timestamp = datetime.now().strftime("%d%m%Y%H%M%S")
+    timestamp = datetime.now().strftime("%H%M%S%d%m%Y")
     output_file = f"capture{timestamp}.pcap"
     try:
         device_name = interface.split()[1]
