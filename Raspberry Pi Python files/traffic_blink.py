@@ -21,29 +21,42 @@ def analyze_traffic(pcap_file):
                                 capture_output=True, text=True, check=True)
         total_packets = len(result.stdout.splitlines())
         
-        # Protocol breakdown (TCP vs UDP)
+        # Protocol breakdown with better parsing
         proto_result = subprocess.run(["tshark", "-r", pcap_file, "-qz", "io,phs"], 
                                       capture_output=True, text=True, check=True)
         tcp_count = udp_count = 0
-        for line in proto_result.stdout.splitlines():
-            if "tcp" in line.lower():
-                tcp_count = int(line.split()[1]) if line.split()[1].isdigit() else 0
-            elif "udp" in line.lower():
-                udp_count = int(line.split()[1]) if line.split()[1].isdigit() else 0
+        lines = proto_result.stdout.splitlines()
+        for i, line in enumerate(lines):
+            parts = line.split()
+            if len(parts) >= 2 and "tcp" in parts[0].lower():
+                tcp_count = int(parts[1]) if parts[1].isdigit() else 0
+            elif len(parts) >= 2 and "udp" in parts[0].lower():
+                udp_count = int(parts[1]) if parts[1].isdigit() else 0
         
-        # Top source IPs
+        # Fallback: Count by ip.proto if io,phs fails
+        if tcp_count == 0 and udp_count == 0 and total_packets > 0:
+            proto_fallback = subprocess.run(["tshark", "-r", pcap_file, "-T", "fields", "-e", "ip.proto"], 
+                                            capture_output=True, text=True, check=True)
+            proto_lines = proto_fallback.stdout.splitlines()
+            tcp_count = sum(1 for line in proto_lines if line.strip() == "6")
+            udp_count = sum(1 for line in proto_lines if line.strip() == "17")
+        
+        other_count = total_packets - (tcp_count + udp_count)
+        
+        # Top source IP
         ip_result = subprocess.run(["tshark", "-r", pcap_file, "-T", "fields", "-e", "ip.src", "-q", "-z", "conv,ip"], 
                                    capture_output=True, text=True, check=True)
         top_ip = "Unknown"
         for line in ip_result.stdout.splitlines():
             if "=>" in line and "Frames" not in line:
-                top_ip = line.split()[0]  # First IP with traffic
+                top_ip = line.split()[0]
                 break
         
         print(f"Analysis for {pcap_file}:")
         print(f"Total packets: {total_packets}")
         print(f"TCP packets: {tcp_count} ({(tcp_count/total_packets)*100:.1f}%)")
         print(f"UDP packets: {udp_count} ({(udp_count/total_packets)*100:.1f}%)")
+        print(f"Other packets: {other_count} ({(other_count/total_packets)*100:.1f}%)")
         print(f"Top source IP: {top_ip}")
         
         return total_packets, tcp_count / total_packets if total_packets > 0 else 0, top_ip
@@ -55,23 +68,20 @@ def analyze_traffic(pcap_file):
         return 0, 0, "Unknown"
 
 def blink_leds(green_pin, red_pin, total_packets, tcp_ratio):
-    # Green LED: Traffic volume
-    if total_packets > 100:  # High traffic
+    if total_packets > 100:
         green_interval = 0.2
         print("High traffic detected - Fast green blinking")
-    elif total_packets > 50:  # Medium traffic
+    elif total_packets > 50:
         green_interval = 0.5
         print("Medium traffic detected - Medium green blinking")
-    else:  # Low traffic
+    else:
         green_interval = 1.0
         print("Low traffic detected - Slow green blinking")
     
-    # Red LED: High TCP traffic (>70%)
     red_on = tcp_ratio > 0.7
     if red_on:
         print("High TCP traffic (>70%) - Red LED on")
     
-    # Blink sequence (5 cycles)
     for _ in range(5):
         GPIO.output(green_pin, GPIO.HIGH)
         if red_on:
