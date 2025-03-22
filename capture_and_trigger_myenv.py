@@ -19,9 +19,9 @@ PI_SCRIPT_PATH = "/home/Mathi.b_417/traffic_blink.py"
 PI_PYTHON_PATH = "/home/Mathi.b_417/myenv/bin/python3"  # Use myenv's Python
 
 # Raspberry Pi SSH details (update these)
-PI_IP = "192.168.1.100"  # Replace with your Pi's IP
-PI_USERNAME = "pi"
-PI_PASSWORD = "raspberry"
+PI_IP = "192.168.136.118"  # Replace with your Pi's IP
+PI_USERNAME = "Mathi.b_417"
+PI_PASSWORD = "Mathi.b_417@PW"
 PI_SCRIPT_PATH = "/home/Mathi.b_417/traffic_blink.py"
 PI_VENV_PATH = "/home/Mathi.b_417/myenv/bin/activate"  # Path to virtual environment
 
