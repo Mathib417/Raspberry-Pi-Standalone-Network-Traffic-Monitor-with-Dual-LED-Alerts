@@ -10,12 +10,12 @@ import paramiko
 
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 
-# Raspberry Pi SSH details (update these)
-PI_IP = "192.168.136.118"  # Replace with your Pi's IP
-PI_USERNAME = "Mathi.b_417"
-PI_PASSWORD = "Mathi.b_417@PW"
+# Raspberry Pi SSH details
+PI_IP = "192.168.136.118"  # Updated to your Pi's IP
+PI_USERNAME = "Mathi.b_417"         # Adjust if different
+PI_PASSWORD = "Mathi.b_417@PW"  # Adjust if different
 PI_SCRIPT_PATH = "/home/Mathi.b_417/traffic_blink.py"
-PI_VENV_PATH = "/home/Mathi.b_417/myenv/bin/activate"  # Path to virtual environment
+PI_PYTHON_PATH = "/home/Mathi.b_417/myenv/bin/python3"  # Use myenv's Python
 
 def get_tshark_interfaces():
     try:
@@ -86,10 +86,10 @@ def trigger_pi_script(file_id):
     try:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(PI_IP, username=PI_USERNAME, password=PI_PASSWORD)
+        ssh.connect(PI_IP, username=PI_USERNAME, password=PI_PASSWORD, timeout=30)
         
-        # Updated command to activate virtual environment
-        command = f"source {PI_VENV_PATH} && python3 {PI_SCRIPT_PATH} {file_id}"
+        # Use myenv's Python directly
+        command = f"{PI_PYTHON_PATH} {PI_SCRIPT_PATH} {file_id}"
         stdin, stdout, stderr = ssh.exec_command(command)
         
         print("Pi script output:")
