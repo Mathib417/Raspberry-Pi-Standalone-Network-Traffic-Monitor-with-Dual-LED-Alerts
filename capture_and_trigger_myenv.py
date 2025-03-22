@@ -6,16 +6,16 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 import os
 from datetime import datetime
-import paramiko  # For SSH to Raspberry Pi
+import paramiko
 
-# Google Drive scope
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 
 # Raspberry Pi SSH details (update these)
-PI_IP = "192.168.136.118"  # Replace with your Pi's IP (find with 'hostname -I' on Pi)
-PI_USERNAME = "Mathi.b_417"       # Default Pi username, change if different
-PI_PASSWORD = "Mathi.b_417@PW"  # Default Pi password, change if different
+PI_IP = "192.168.1.100"  # Replace with your Pi's IP
+PI_USERNAME = "pi"
+PI_PASSWORD = "raspberry"
 PI_SCRIPT_PATH = "/home/Mathi.b_417/traffic_blink.py"
+PI_VENV_PATH = "/home/Mathi.b_417/myenv/bin/activate"  # Path to virtual environment
 
 def get_tshark_interfaces():
     try:
@@ -84,16 +84,14 @@ def upload_to_drive(file_path, folder_id=None):
 
 def trigger_pi_script(file_id):
     try:
-        # Set up SSH client
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(PI_IP, username=PI_USERNAME, password=PI_PASSWORD)
         
-        # Command to run traffic_blink.py with file_id
-        command = f"python3 {PI_SCRIPT_PATH} {file_id}"
+        # Updated command to activate virtual environment
+        command = f"source {PI_VENV_PATH} && python3 {PI_SCRIPT_PATH} {file_id}"
         stdin, stdout, stderr = ssh.exec_command(command)
         
-        # Print output from Pi script
         print("Pi script output:")
         for line in stdout:
             print(line.strip())
@@ -121,7 +119,6 @@ if __name__ == "__main__":
                     if folder_id:
                         file_id = upload_to_drive(captured_file, folder_id)
                         print(f"File uploaded successfully with ID: {file_id} to 'Packet Capturer' folder")
-                        # Trigger Pi script with file_id
                         trigger_pi_script(file_id)
                     else:
                         print("Upload failed due to folder issue.")
