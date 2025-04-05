@@ -10,21 +10,11 @@ import paramiko
 
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 
-
-# Raspberry Pi SSH details
-PI_IP = "192.168.136.118"  # Updated to your Pi's IP
-PI_USERNAME = "Mathi.b_417"         # Adjust if different
-PI_PASSWORD = "Mathi.b_417@PW"  # Adjust if different
-PI_SCRIPT_PATH = "/home/Mathi.b_417/traffic_blink.py"
-PI_PYTHON_PATH = "/home/Mathi.b_417/myenv/bin/python3"  # Use myenv's Python
-
-# Raspberry Pi SSH details (update these)
-PI_IP = "192.168.136.118"  # Replace with your Pi's IP
+# Raspberry Pi SSH details (username and password hardcoded, IP from user input)
 PI_USERNAME = "Mathi.b_417"
 PI_PASSWORD = "Mathi.b_417@PW"
 PI_SCRIPT_PATH = "/home/Mathi.b_417/traffic_blink.py"
-PI_VENV_PATH = "/home/Mathi.b_417/myenv/bin/activate"  # Path to virtual environment
-
+PI_PYTHON_PATH = "/home/Mathi.b_417/myenv/bin/python3"  # Use myenv's Python directly
 
 def get_tshark_interfaces():
     try:
@@ -91,21 +81,17 @@ def upload_to_drive(file_path, folder_id=None):
     print(f"Uploaded file ID: {file.get('id')}")
     return file.get("id")
 
-def trigger_pi_script(file_id):
+def trigger_pi_script(file_id, pi_ip):
     try:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-        ssh.connect(PI_IP, username=PI_USERNAME, password=PI_PASSWORD, timeout=30)
         
-        # Use myenv's Python directly
+        # Connect using user-provided IP
+        ssh.connect(pi_ip, username=PI_USERNAME, password=PI_PASSWORD, timeout=30)
+        
+        # Use myenv's Python directly (no need for source since we specify the path)
         command = f"{PI_PYTHON_PATH} {PI_SCRIPT_PATH} {file_id}"
-
-        ssh.connect(PI_IP, username=PI_USERNAME, password=PI_PASSWORD)
         
-        # Updated command to activate virtual environment
-        command = f"source {PI_VENV_PATH} && python3 {PI_SCRIPT_PATH} {file_id}"
-
         stdin, stdout, stderr = ssh.exec_command(command)
         
         print("Pi script output:")
@@ -119,6 +105,9 @@ def trigger_pi_script(file_id):
         print(f"Error triggering Pi script: {e}")
 
 if __name__ == "__main__":
+    # Get Pi IP from user input
+    PI_IP = input("Enter Raspberry Pi IP address (e.g., 192.168.23.118): ").strip()
+    
     interfaces = get_tshark_interfaces()
     if interfaces:
         print("Available network interfaces:")
@@ -135,7 +124,7 @@ if __name__ == "__main__":
                     if folder_id:
                         file_id = upload_to_drive(captured_file, folder_id)
                         print(f"File uploaded successfully with ID: {file_id} to 'Packet Capturer' folder")
-                        trigger_pi_script(file_id)
+                        trigger_pi_script(file_id, PI_IP)  # Pass PI_IP to function
                     else:
                         print("Upload failed due to folder issue.")
             else:
