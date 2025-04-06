@@ -1,0 +1,169 @@
+(myenv) Mathi.b_417@raspberrypi:~ $ python3 traffic_monitor_pi.py
+Available network interfaces:
+1. 1. wlan0
+2. 2. any
+3. 3. lo (Loopback)
+4. 4. eth0
+5. 5. bluetooth0
+6. 6. bluetooth-monitor
+7. 7. nflog
+8. 8. nfqueue
+9. 9. dbus-system
+10. 10. dbus-session
+11. 11. ciscodump (Cisco remote capture)
+12. 12. dpauxmon (DisplayPort AUX channel monitor capture)
+13. 13. randpkt (Random packet generator)
+14. 14. sdjournal (systemd Journal Export)
+15. 15. sshdump (SSH remote capture)
+16. 16. udpdump (UDP Listener remote capture)
+17. 17. wifidump (Wi-Fi remote capture)
+Select interface number: 1
+Starting 10 periodic captures for averaging...
+Sample 1/10
+Capturing on 'wlan0'
+ ** (tshark:4820) 12:41:47.387344 [Main MESSAGE] -- Capture started.
+ ** (tshark:4820) 12:41:47.387622 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124146_06042025.pcap"
+63
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124146_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124146_06042025.pcap:
+Total packets: 63
+TCP packets: 15 (23.8%)
+UDP packets: 1 (1.6%)
+Other packets: 47 (74.6%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+Sample 2/10
+Capturing on 'wlan0'
+ ** (tshark:4868) 12:42:05.999653 [Main MESSAGE] -- Capture started.
+ ** (tshark:4868) 12:42:05.999805 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124204_06042025.pcap"
+206
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124204_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124204_06042025.pcap:
+Total packets: 206
+TCP packets: 29 (14.1%)
+UDP packets: 25 (12.1%)
+Other packets: 152 (73.8%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+Sample 3/10
+Capturing on 'wlan0'
+ ** (tshark:4940) 12:42:24.771352 [Main MESSAGE] -- Capture started.
+ ** (tshark:4940) 12:42:24.771581 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124223_06042025.pcap"
+48
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124223_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124223_06042025.pcap:
+Total packets: 48
+TCP packets: 0 (0.0%)
+UDP packets: 0 (0.0%)
+Other packets: 48 (100.0%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+Sample 4/10
+Capturing on 'wlan0'
+ ** (tshark:4982) 12:42:43.330476 [Main MESSAGE] -- Capture started.
+ ** (tshark:4982) 12:42:43.330683 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124242_06042025.pcap"
+47
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124242_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124242_06042025.pcap:
+Total packets: 47
+TCP packets: 0 (0.0%)
+UDP packets: 1 (2.1%)
+Other packets: 46 (97.9%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+Sample 5/10
+Capturing on 'wlan0'
+ ** (tshark:5028) 12:43:01.915296 [Main MESSAGE] -- Capture started.
+ ** (tshark:5028) 12:43:01.915718 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124300_06042025.pcap"
+52
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124300_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124300_06042025.pcap:
+Total packets: 52
+TCP packets: 5 (9.6%)
+UDP packets: 0 (0.0%)
+Other packets: 47 (90.4%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+Sample 6/10
+Capturing on 'wlan0'
+ ** (tshark:5069) 12:43:20.527297 [Main MESSAGE] -- Capture started.
+ ** (tshark:5069) 12:43:20.527441 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124319_06042025.pcap"
+69
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124319_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124319_06042025.pcap:
+Total packets: 69
+TCP packets: 0 (0.0%)
+UDP packets: 6 (8.7%)
+Other packets: 63 (91.3%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+Sample 7/10
+Capturing on 'wlan0'
+ ** (tshark:5140) 12:43:39.167372 [Main MESSAGE] -- Capture started.
+ ** (tshark:5140) 12:43:39.167541 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124337_06042025.pcap"
+81
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124337_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124337_06042025.pcap:
+Total packets: 81
+TCP packets: 19 (23.5%)
+UDP packets: 0 (0.0%)
+Other packets: 62 (76.5%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+Sample 8/10
+Capturing on 'wlan0'
+ ** (tshark:5183) 12:43:57.791331 [Main MESSAGE] -- Capture started.
+ ** (tshark:5183) 12:43:57.791530 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124356_06042025.pcap"
+71
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124356_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124356_06042025.pcap:
+Total packets: 71
+TCP packets: 20 (28.2%)
+UDP packets: 0 (0.0%)
+Other packets: 51 (71.8%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+Sample 9/10
+Capturing on 'wlan0'
+ ** (tshark:5226) 12:44:16.391343 [Main MESSAGE] -- Capture started.
+ ** (tshark:5226) 12:44:16.391613 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124415_06042025.pcap"
+71
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124415_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124415_06042025.pcap:
+Total packets: 71
+TCP packets: 0 (0.0%)
+UDP packets: 1 (1.4%)
+Other packets: 70 (98.6%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+Sample 10/10
+Capturing on 'wlan0'
+ ** (tshark:5297) 12:44:34.767464 [Main MESSAGE] -- Capture started.
+ ** (tshark:5297) 12:44:34.767601 [Main MESSAGE] -- File: "/home/Mathi.b_417/capture_124433_06042025.pcap"
+51
+tshark:
+Packets captured and saved to /home/Mathi.b_417/capture_124433_06042025.pcap
+Analysis for /home/Mathi.b_417/capture_124433_06042025.pcap:
+Total packets: 51
+TCP packets: 5 (9.8%)
+UDP packets: 0 (0.0%)
+Other packets: 46 (90.2%)
+Top source IP: Unknown
+Results logged to /home/Mathi.b_417/traffic_log.txt
+
+Averaged over 10 samples:
+Average packets: 75.9
+Average TCP ratio: 10.9%
+Average packets (75.9) <= 250 - Slow green blinking
+Results logged to /home/Mathi.b_417/traffic_log.txt
+GPIO cleaned up
+(myenv) Mathi.b_417@raspberrypi:~ $
