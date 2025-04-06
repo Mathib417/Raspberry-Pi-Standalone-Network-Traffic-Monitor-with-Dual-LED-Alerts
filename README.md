@@ -1,12 +1,4 @@
-Here’s a complete **GitHub `README.md`** code for your Raspberry Pi Network Traffic Monitor project. You can copy-paste this into your repo's `README.md` file:
-
-```markdown
-# Raspberry Pi Network Traffic Monitor
-
-> **Developed as part of Day 5 deliverable — Completed on March 26, 2025**
-
-![Project Setup Placeholder](insert-your-setup-image-here.jpg)
-*(Replace with an actual image of your setup if possible!)*
+# Raspberry Pi Standalone Network Traffic Monitor with Dual-LED Alerts
 
 ---
 
@@ -68,7 +60,7 @@ GPIO 23 (Pin 16) ---> [Red LED +] ---> [220Ω] ---> GND (Pin 6)
 ## 📥 Installation
 
 ```bash
-git clone https://github.com/yourusername/raspberry-pi-traffic-monitor.git
+git clone https://github.com/Mathib417/raspberry-pi-traffic-monitor.git
 cd raspberry-pi-traffic-monitor
 ```
 
@@ -133,9 +125,23 @@ raspberry-pi-traffic-monitor/
 ## 🧪 Example Output
 
 ```
-Available network interfaces:
 1. wlan0
-2. eth0
+2. any
+3. lo (Loopback)
+4. eth0
+5. bluetooth0
+6. bluetooth-monitor
+7. nflog
+8. nfqueue
+9. dbus-system
+10. dbus-session
+11. ciscodump (Cisco remote capture)
+12. dpauxmon (DisplayPort AUX channel monitor capture)
+13. randpkt (Random packet generator)
+14. sdjournal (systemd Journal Export)
+15. sshdump (SSH remote capture)
+16. udpdump (UDP Listener remote capture)
+17. wifidump (Wi-Fi remote capture)
 Select interface number: 1
 
 Starting 10 periodic captures for averaging...
@@ -154,8 +160,8 @@ Top source IP: 192.168.23.1
 Averaged over 10 samples:
 Average packets: 1175.0
 Average TCP ratio: 74.5%
-🟢 Green LED: fast blinking (2s)
-🔴 Red LED: ON (TCP >70%)
+Green LED: fast blinking (2s)
+Red LED: ON (TCP >70%)
 Results logged to /home/Mathi.b_417/traffic_log.txt
 GPIO cleaned up
 ```
@@ -173,10 +179,9 @@ GPIO cleaned up
 
 ## 🌱 Future Enhancements
 
-- Add a **button** to start/stop monitoring
-- Include a **buzzer** for audible alerts
-- Cloud upload (e.g., Google Drive / Firebase)
-- Extend LED feedback duration
+- **ML Model** : Integrate a machine learning model to predict traffic patterns or detect anomalies based on historical packet data, enhancing the system’s intelligence.
+- **More User-Friendly Feedback (Buzzer, LED)** : Add a buzzer for audible alerts (e.g., beeping for high traffic) and extend LED feedback (e.g., more colors or patterns) for intuitive real-time notifications.
+- **Cloud Upload** : Enable uploading of .pcap files and logs to a cloud service for remote access and long-term storage.
 
 ---
 
@@ -197,6 +202,5 @@ MIT License – See `LICENSE` file for details.
 
 ## 🙏 Acknowledgments
 
-- Inspired by **IoT and Embedded Systems** tutorials
 - Special thanks to **tshark** and the **Raspberry Pi** community ❤️
 ```
