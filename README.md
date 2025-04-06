@@ -194,12 +194,6 @@ Pull requests are welcome! Fork the repo and feel free to:
 
 ---
 
-## 📄 License
-
-MIT License – See `LICENSE` file for details.
-
----
-
 ## 🙏 Acknowledgments
 
 - Special thanks to **tshark** and the **Raspberry Pi** community ❤️
