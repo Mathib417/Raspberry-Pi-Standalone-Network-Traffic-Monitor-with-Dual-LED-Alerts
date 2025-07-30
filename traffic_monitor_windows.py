@@ -1,6 +1,7 @@
 import subprocess
 import time
 import os
+import csv
 from datetime import datetime
 
 def get_tshark_interfaces():
@@ -25,6 +26,15 @@ def capture_packets(interface, duration=10, output_dir="captures"):
     except subprocess.CalledProcessError as e:
         print(f"Error capturing packets: {e}")
         return None
+
+def save_to_csv(csv_path, total_packets, tcp_ratio, udp_ratio, other_ratio, top_ip):
+    file_exists = os.path.isfile(csv_path)
+    with open(csv_path, 'a', newline='') as f:
+        writer = csv.writer(f)
+        if not file_exists:
+            writer.writerow(["timestamp", "total_packets", "tcp_ratio", "udp_ratio", "other_ratio", "top_ip"])
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        writer.writerow([timestamp, total_packets, tcp_ratio, udp_ratio, other_ratio, top_ip])
 
 def analyze_traffic(pcap_file):
     try:
@@ -117,11 +127,23 @@ def main():
             if captured_file:
                 total_packets, tcp_ratio, top_ip = analyze_traffic(captured_file)
                 if total_packets > 0:
+                    udp_ratio = 0.0
+                    other_ratio = 0.0
+                    if tcp_ratio < 1.0:
+                        udp_ratio = (1.0 - tcp_ratio) * 0.7  # Assumed distribution if no exact UDP
+                        other_ratio = 1.0 - tcp_ratio - udp_ratio
+                    
                     packet_counts.append(total_packets)
                     tcp_ratios.append(tcp_ratio)
                     last_top_ip = top_ip
                     last_file = captured_file
                     log_results(captured_file, total_packets, tcp_ratio, top_ip)
+                    
+                    # ✅ Save to CSV
+                    csv_path = os.path.join(output_dir, "traffic_data.csv")
+                    save_to_csv(csv_path, total_packets, tcp_ratio, udp_ratio, other_ratio, top_ip)
+
+                
                 else:
                     print("No packets captured in this sample.")
             time.sleep(2)

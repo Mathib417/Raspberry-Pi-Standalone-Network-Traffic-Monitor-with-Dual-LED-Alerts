@@ -41,3 +41,5 @@
 2025-07-30 20:13:21 | File: F:\Spark\Spark Individual\Captured Packets\20250730_201148\capture_201309_30072025.pcap | Packets: 52 | TCP%: 21.2 | Top IP: Unknown
 2025-07-30 20:13:34 | File: F:\Spark\Spark Individual\Captured Packets\20250730_201148\capture_201323_30072025.pcap | Packets: 141 | TCP%: 23.4 | Top IP: Unknown
 2025-07-30 20:13:48 | File: F:\Spark\Spark Individual\Captured Packets\20250730_201148\capture_201336_30072025.pcap | Packets: 40 | TCP%: 7.5 | Top IP: Unknown
+2025-07-30 20:14:02 | File: F:\Spark\Spark Individual\Captured Packets\20250730_201148\capture_201350_30072025.pcap | Packets: 738 | TCP%: 79.0 | Top IP: Unknown
+2025-07-30 20:14:04 | Avg Packets: 155.5 | Avg TCP%: 23.8 | Last File: F:\Spark\Spark Individual\Captured Packets\20250730_201148\capture_201350_30072025.pcap | Last Packets: 738 | Last TCP%: 79.0 | Top IP: Unknown
