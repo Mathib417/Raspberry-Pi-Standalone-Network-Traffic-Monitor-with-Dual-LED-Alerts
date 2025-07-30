@@ -4,6 +4,10 @@ from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 import joblib
 import os
+import time
+from datetime import datetime
+
+timestamp = datetime.now().strftime("%H%M%S_%d%m%Y")
 
 def train_model(csv_path):
     if not os.path.exists(csv_path):
@@ -32,10 +36,22 @@ def train_model(csv_path):
     df.to_csv(output_file, index=False)
     print(f"✅ Results with anomalies saved to: {output_file}")
 
-    # Save model and scaler
-    joblib.dump(model, "anomaly_model.pkl")
-    joblib.dump(scaler, "anomaly_scaler.pkl")
-    print("✅ Model and scaler saved as 'anomaly_model.pkl' and 'anomaly_scaler.pkl'")
+    # Save model and scaler with timestamp + latest version
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    model_dir = os.path.dirname(csv_path)
+
+    model_path = os.path.join(model_dir, f"anomaly_model_{timestamp}.pkl")
+    scaler_path = os.path.join(model_dir, f"anomaly_scaler_{timestamp}.pkl")
+    joblib.dump(model, model_path)
+    joblib.dump(scaler, scaler_path)
+
+    joblib.dump(model, os.path.join(model_dir, "anomaly_model_latest.pkl"))
+    joblib.dump(scaler, os.path.join(model_dir, "anomaly_scaler_latest.pkl"))
+
+    print(f"✅ Model saved as: {model_path}")
+    print(f"✅ Scaler saved as: {scaler_path}")
+    print("✅ Also updated: anomaly_model_latest.pkl and anomaly_scaler_latest.pkl")
+
 
     # Display quick summary
     counts = df['anomaly'].value_counts()
@@ -45,4 +61,5 @@ def train_model(csv_path):
 if __name__ == "__main__":
     csv_path = input("Enter path to traffic_data.csv: ").strip().strip('"')
     train_model(csv_path)
+
 
