@@ -111,7 +111,7 @@ def main():
         
         # Create a timestamped folder to save all .pcap files for this run
         run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_dir = os.path.join("F:\Spark\Spark Individual\Captured Packets", run_timestamp)
+        output_dir = os.path.join(r"F:\Spark\Spark Individual\Captured Packets", run_timestamp)
         os.makedirs(output_dir, exist_ok=True)
         print(f"\nCaptures will be saved to: {output_dir}\n")
 
@@ -121,7 +121,7 @@ def main():
         last_top_ip = "Unknown"
         last_file = None
         
-        for i in range(10):
+        for i in range(5):
             print(f"\nSample {i+1}/10")
             captured_file = capture_packets(interface, duration=10, output_dir=output_dir)
             if captured_file:
@@ -140,7 +140,7 @@ def main():
                     log_results(captured_file, total_packets, tcp_ratio, top_ip)
                     
                     # ✅ Save to CSV
-                    csv_path = os.path.join(output_dir, "traffic_data.csv")
+                    csv_path = os.path.join(r"F:\Spark\Spark Individual\traffic_data", run_timestamp+"_traffic_data.csv")
                     save_to_csv(csv_path, total_packets, tcp_ratio, udp_ratio, other_ratio, top_ip)
 
                 
