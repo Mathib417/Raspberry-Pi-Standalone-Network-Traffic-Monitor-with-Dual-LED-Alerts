@@ -39,7 +39,8 @@ def train_model(csv_path):
     # Save model and scaler with timestamp + latest version
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     model_dir_latest = os.path.dirname(csv_path)
-    model_dir = r"F:\Spark\Spark Individual\Packet Capture\anomals"
+    #model_dir = r"F:\Spark\Spark Individual\Packet Capture Files\Home_wifi\anomals"
+    model_dir = r"F:\Spark\Spark Individual\Packet Capture Files\Uni_wifi\anomals"
 
     model_path = os.path.join(model_dir, f"anomaly_model_{timestamp}.pkl")
     scaler_path = os.path.join(model_dir, f"anomaly_scaler_{timestamp}.pkl")

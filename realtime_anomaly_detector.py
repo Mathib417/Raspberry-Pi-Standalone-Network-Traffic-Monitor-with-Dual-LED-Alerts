@@ -10,9 +10,17 @@ from sklearn.preprocessing import StandardScaler
 INTERFACE_NAME = "Wi-Fi"  # Replace with your interface name like "eth0" or "wlan0"
 CAPTURE_DURATION = 10     # Duration in seconds per capture
 CAPTURE_COUNT = 5         # How many times to capture
-OUTPUT_BASE_DIR = r"F:\Spark\Spark Individual\Realtime Captures"
-MODEL_PATH = "anomaly_model_latest.pkl"
-SCALER_PATH = "anomaly_scaler_latest.pkl"
+'''
+#Home Wifi
+OUTPUT_BASE_DIR = r"F:\Spark\Spark Individual\Packet Capture Files\Home_wifi\Realtime Captures"
+MODEL_PATH = r"F:\Spark\Spark Individual\Packet Capture Files\Home_wifi\traffic_data\anomaly_model_latest.pkl"
+SCALER_PATH = r"F:\Spark\Spark Individual\Packet Capture Files\Home_wifi\traffic_data\anomaly_scaler_latest.pkl"
+'''
+
+#Uni WiFi
+OUTPUT_BASE_DIR = r"F:\Spark\Spark Individual\Packet Capture Files\Uni_wifi\Realtime Captures"
+MODEL_PATH = r"F:\Spark\Spark Individual\Packet Capture Files\Uni_wifi\traffic_data\anomaly_model_latest.pkl"
+SCALER_PATH = r"F:\Spark\Spark Individual\Packet Capture Files\Uni_wifi\traffic_data\anomaly_scaler_latest.pkl"
 # ===============
 
 def capture_packets(interface, duration, output_dir):
